@@ -1,0 +1,15 @@
+{
+  "org": {
+    "dnlup": {
+      "ava": {
+        "tasks": {
+          "test": {
+            "description": "Run unit tests with Ava",
+            "watch": "Monitor files changes and re-run tests on changed files",
+            "update": "Update snapshots"
+          }
+        }
+      }
+    }
+  }
+}
