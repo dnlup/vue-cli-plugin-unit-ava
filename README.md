@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava.svg?token=zu3SxXGFaq3y1hcTQfC6&branch=master)](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava)
+[![Build Status](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava.svg?token=zu3SxXGFaq3y1hcTQfC6&branch=master)](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava) [![Greenkeeper badge](https://badges.greenkeeper.io/dnlup/vue-cli-plugin-unit-ava.svg?token=afd39f2e241ccb41748b27d5b16c32d4a8922b23319dbd178352c5a12aa4c967&ts=1552668377939)](https://greenkeeper.io/)
 
 <img src="ava.png" height=60>
 
