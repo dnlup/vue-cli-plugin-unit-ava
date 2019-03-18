@@ -17,7 +17,7 @@
 
 const { basename, dirname, join, relative } = require('path')
 const { promisify } = require('util')
-const glob = require('glob')
+const glob = promisify(require('glob'))
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const rimraf = promisify(require('rimraf'))
@@ -108,7 +108,7 @@ module.exports = api => {
 
     // const entries = glob.sync(pattern)
     for (const pattern of patterns) {
-      entries = entries.concat(glob.sync(pattern))
+      entries = entries.concat(await glob(pattern))
     }
 
     for (let i = 0; i < entries.length; i++) {
