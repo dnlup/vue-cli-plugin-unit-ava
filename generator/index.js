@@ -23,21 +23,10 @@ module.exports = (api) => {
   api.extendPackage({
     devDependencies: {
       '@vue/test-utils': '1.0.0-beta.29',
-      ava: '^1.2.1'
+      ava: '^1.4.1'
     },
     scripts: {
       'test:unit': 'vue-cli-service test:unit'
-    },
-    ava: {
-      files: [
-        'dist_tests/tests/**/*.js'
-      ],
-      sources: [
-        '!**/*.{js,jsx,ts,vue}'
-      ],
-      babel: false,
-      compileEnhancements: false,
-      require: './node_modules/@dnlup/vue-cli-plugin-unit-ava/setup.js'
     }
   })
 

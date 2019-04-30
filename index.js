@@ -37,7 +37,7 @@ const RewriteSourceMap = require('./webpack')
  * vue-cli plugin setup function.
  * @param  {pluginApi} api
  */
-module.exports = api => {
+module.exports = (api, options) => {
   /**
    * These are the devtools supported
    * @type {Array}
@@ -106,7 +106,6 @@ module.exports = api => {
       cliArgs = rawArgs
     }
 
-    // const entries = glob.sync(pattern)
     for (const pattern of patterns) {
       entries = entries.concat(await glob(pattern))
     }
@@ -148,7 +147,13 @@ module.exports = api => {
     stopSpinner()
 
     return new Promise((resolve, reject) => {
-      const child = execa('ava', cliArgs, { stdio: 'inherit' })
+      let ava = null
+      try {
+        ava = require.resolve('./ava/cli.js')
+      } catch (error) {
+        reject(error)
+      }
+      const child = execa('node', [ ava, ...cliArgs ], { stdio: 'inherit' })
       child.on('error', reject)
       child.on('exit', code => {
         if (code !== 0) {
