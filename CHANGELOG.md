@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.6](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2019-05-20)
+
+
+### Build System
+
+* **release:** add angular preset to gh:release ([6d4c43d](https://github.com/dnlup/vue-cli-plugin-unit-ava/commit/6d4c43d))
+
+
+
 ## [1.0.0-beta.5](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2019-05-20)
 
 
