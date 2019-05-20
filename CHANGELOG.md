@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.5](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2019-05-20)
+
+
+### Build System
+
+* **release:** remove github deploy on travis ([27ac913](https://github.com/dnlup/vue-cli-plugin-unit-ava/commit/27ac913))
+
+
+
 ## [1.0.0-beta.4](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2019-05-20)
 
 
