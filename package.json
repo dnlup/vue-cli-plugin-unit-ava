@@ -34,7 +34,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@vue/cli-shared-utils": "^3.4.1",
     "javascript-stringify": "^2.0.0"
   },
   "devDependencies": {
