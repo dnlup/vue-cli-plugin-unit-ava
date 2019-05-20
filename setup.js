@@ -4,11 +4,20 @@
  * @module vue-cli-plugin-unit-ava/setup
  * @see https://github.com/vuejs/vue-test-utils/issues/936
  */
-require('jsdom-global')(undefined, { pretendToBeVisual: true, url: 'http://localhost' })
+require('browser-env')()
+const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
+const hooks = require('require-extension-hooks')
+const Vue = require('vue')
 
-// Setting `performance` as global until 'https://github.com/vuejs/vue/commit/653c74e64e5ccd66cda94c77577984f8afa8386d' is merged.
-// Otherwise this error will pop up:
-//    https://github.com/vuejs/vue/issues/9698
-global.performance = window.performance
-
+// Fix TypeError from prettier
 window.Date = Date
+
+// Setup Vue.js to remove production tip
+Vue.config.productionTip = false
+
+// Setup vue files to be processed by `require-extension-hooks-vue`
+hooks('vue').plugin('vue').push()
+// Setup vue and js files to be processed by `require-extension-hooks-babel`
+hooks(['vue', 'js']).exclude(({ filename }) => {
+  return filename.match(/\/node_modules\//) || filename.includes(webpackConfig)
+}).plugin('babel').push()
