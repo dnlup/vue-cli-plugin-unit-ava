@@ -47,7 +47,7 @@
 ### Installing in an Already Created Project
 
 ```bash
-vue add @dnlup/unit-ava
+$ vue add @dnlup/unit-ava
 ```
 
 #### Prompts
@@ -64,9 +64,9 @@ Will add support for a specific UI Framework. It currently supports only the lat
 * Make your changes
 * Add them
   ```bash
-  git add <your files>
+  $ git add <your files>
   ```
 * Commit (uses [commitizen](https://github.com/commitizen/cz-cli))
   ```bash
-  git commit
+  $ npm run cz
   ```
