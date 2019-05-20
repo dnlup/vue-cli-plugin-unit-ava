@@ -8,7 +8,7 @@
     "lint": "eslint ./ --fix",
     "cz": "git-cz",
     "release": "standard-version",
-    "gh:release": "conventional-github-releaser"
+    "gh:release": "conventional-github-releaser -p angular"
   },
   "keywords": [
     "vue",
