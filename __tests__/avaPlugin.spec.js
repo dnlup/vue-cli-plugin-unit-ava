@@ -13,7 +13,7 @@ const isCI = require('is-ci')
 const ROOT = resolve(__dirname, '../')
 const DATA_DIR = join(__dirname, '.data')
 
-async function plugin (t, input = {}, expected) {
+async function plugin (t, input = {}) {
   const { plugins = {}, invokeOpts = [] } = input
   const project = await create(t.context.project, {
     plugins

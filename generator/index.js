@@ -60,29 +60,17 @@ function mergeAvaConfig (left = {}, right = {}) {
   for (const key of ['files', 'require', 'extensions']) {
     left[key] = toArray(left[key])
     right[key] = toArray(right[key])
+    left[key] = [
+      ...new Set([
+        ...left[key],
+        ...right[key]
+      ])
+    ]
   }
-  left.files = [
-    ...new Set([
-      ...left.files,
-      ...right.files
-    ])
-  ]
-  left.require = [
-    ...new Set([
-      ...left.require,
-      ...right.require
-    ])
-  ]
   left.babel = {
     ...left.babel,
     ...right.babel
   }
-  left.extensions = [
-    ...new Set([
-      ...left.extensions,
-      ...right.extensions
-    ])
-  ]
   return left
 }
 
