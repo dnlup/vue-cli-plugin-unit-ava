@@ -5,18 +5,15 @@ import { shallowMount } from '@vue/test-utils'
 import HelloWorld from '@/components/HelloWorld.vue'
 
 test('HelloWorld.vue should render', t => {
-  const msg = 'new message'
-  const wrapper = shallowMount(HelloWorld, {
-    propsData: { msg }
-  })
-  t.regex(wrapper.text(), new RegExp(msg))
+  const wrapper = shallowMount(HelloWorld)
+  t.is(wrapper.constructor.name, 'VueWrapper')
 })
 <%_ } else { _%>
 import App from '@/App.vue'
 
 test('App should render', t => {
   const wrapper = shallowMount(App)
-  t.regex(wrapper.text(), new RegExp('Welcome to Your Vue.js App'))
+  t.is(wrapper.constructor.name, 'VueWrapper')
 })
 <%_ } _%>
 <%_ } _%>
