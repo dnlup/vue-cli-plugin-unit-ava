@@ -45,7 +45,6 @@
     "babel-plugin-webpack-alias-7": "^0.1.1",
     "browser-env": "^3.2.6",
     "commitizen": "^3.1.1",
-    "conventional-github-releaser": "^3.1.2",
     "css-modules-require-hook": "^4.2.3",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.15.1",
@@ -66,8 +65,7 @@
     "stylus": "^0.54.5",
     "ts-node": "^8.1.0",
     "tsconfig-paths": "^3.8.0",
-    "vue-cli-plugin-vuetify": "^0.5.0",
-    "webpack": "^4.29.6"
+    "vue-cli-plugin-vuetify": "^0.5.0"
   },
   "husky": {
     "hooks": {
