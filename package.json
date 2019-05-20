@@ -7,7 +7,8 @@
     "test": "ava",
     "lint": "eslint ./ --fix",
     "cz": "git-cz",
-    "release": "standard-version"
+    "release": "standard-version",
+    "gh:release": "conventional-github-releaser"
   },
   "keywords": [
     "vue",
@@ -45,6 +46,7 @@
     "babel-plugin-webpack-alias-7": "^0.1.1",
     "browser-env": "^3.2.6",
     "commitizen": "^3.1.1",
+    "conventional-github-releaser": "^3.1.2",
     "css-modules-require-hook": "^4.2.3",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.15.1",
