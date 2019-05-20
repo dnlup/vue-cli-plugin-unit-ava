@@ -10,7 +10,7 @@ const { version: VERSION } = require('../package.json')
 const ROOT = resolve(__dirname, '../')
 const DATA_DIR = join(__dirname, '.data')
 
-async function plugin (t, input = {}, expected = 0) {
+async function plugin (t, input = {}, expected) {
   const { plugins = {}, invokeOpts = [] } = input
   const project = await create(t.context.project, {
     plugins
@@ -20,8 +20,7 @@ async function plugin (t, input = {}, expected = 0) {
   await project.run(`npm i -D ${join(t.context.path, t.context.packed)}`)
   await project.run(`vue invoke @dnlup/unit-ava ${opts}`)
   await project.run(`${t.context.cliService} test:unit`)
-  const audit = await project.run(`npm audit`)
-  t.is(expected, audit.code)
+  t.pass()
 }
 
 test.before(async t => {

@@ -2,8 +2,8 @@
  * @module vue-cli-plugin-unit-ava/generator
  * @see {@link https://cli.vuejs.org/dev-guide/plugin-dev.html#generator}
  */
-const { relative, join } = require('path')
-const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
+const { join } = require('path')
+// const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
 const { stringify } = require('javascript-stringify')
 
 /**
@@ -98,11 +98,11 @@ module.exports = (api, options) => {
     uiFramework
   } = options
   const hasTS = api.hasPlugin('typescript')
-  const webpackConfigRelative = `./${relative(root, webpackConfig)}`
+  // const webpackConfigRelative = `./${relative(root, webpackConfig)}`
   const babelPluginAlias = [
     'babel-plugin-webpack-alias-7',
     {
-      config: webpackConfigRelative
+      config: './node_modules/@vue/cli-service/webpack.config.js'
     }
   ]
   const injectedAvaConfig = {
