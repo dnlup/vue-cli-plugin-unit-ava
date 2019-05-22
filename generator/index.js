@@ -3,8 +3,8 @@
  * @see {@link https://cli.vuejs.org/dev-guide/plugin-dev.html#generator}
  */
 const { join } = require('path')
-// const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
 const { stringify } = require('javascript-stringify')
+const { devDependencies: injectedPackageDevDeps } = require('../package.json')
 
 /**
  * @external GeneratorApi
@@ -86,11 +86,13 @@ module.exports = (api, options) => {
     uiFramework
   } = options
   const hasTS = api.hasPlugin('typescript')
-  // const webpackConfigRelative = `./${relative(root, webpackConfig)}`
-  const babelPluginAlias = [
-    'babel-plugin-webpack-alias-7',
+  const babelPluginModuleResolver = [
+    'module-resolver',
     {
-      config: './node_modules/@vue/cli-service/webpack.config.js'
+      root: './',
+      alias: {
+        '@': './src'
+      }
     }
   ]
   const injectedAvaConfig = {
@@ -140,34 +142,30 @@ module.exports = (api, options) => {
     }
   })
 
-  // Configure Babel
-  // The babel-webpack-alias-plugin should work
-  // if adding it to the ava babel testOptions and
-  // it would be the cleanest solution, but somehow it's not
-  // working. It works only if it's added in babel.config.js
-  // TODO: investigate why the plugin does not work when added
-  //       ava babel config options
   if (!hasTS) {
     api.render(files => {
       let config = {}
       try {
         config = require(join(root, 'babel.config.js'))
       } catch (error) {
-        api.exitLog('No `babel.config.js` file found, created a new one.', 'info')
+        api.exitLog('No `babel.config.js` file found, created a new one.',
+          'info')
       }
       config.env = config.env || {}
       config.env.test = config.env.test || {}
       config.env.test.plugins = config.env.test.plugins || []
       config.env.test.plugins = addBabelPlugin(
         config.env.test.plugins,
-        babelPluginAlias
+        babelPluginModuleResolver
       )
       files['babel.config.js'] = api.genJSConfig(config)
     })
     api.extendPackage({
       devDependencies: {
-        'require-extension-hooks-babel': '^1.0.0-beta.1',
-        'babel-plugin-webpack-alias-7': '^0.1.1'
+        'require-extension-hooks-babel':
+          injectedPackageDevDeps['require-extension-hooks-babel'],
+        'babel-plugin-module-resolver':
+          injectedPackageDevDeps['babel-plugin-module-resolver']
       }
     })
   }
@@ -176,8 +174,8 @@ module.exports = (api, options) => {
   if (hasTS) {
     api.extendPackage({
       devDependencies: {
-        'ts-node': '^8.1.0',
-        'tsconfig-paths': '^3.8.0'
+        'ts-node': injectedPackageDevDeps['ts-node'],
+        'tsconfig-paths': injectedPackageDevDeps['tsconfig-paths']
       }
     })
   }
@@ -187,7 +185,7 @@ module.exports = (api, options) => {
     case 'Vuetify':
       api.extendPackage({
         devDependencies: {
-          stylus: '^0.54.5'
+          stylus: injectedPackageDevDeps.stylus
         }
       })
   }
@@ -199,12 +197,18 @@ module.exports = (api, options) => {
 
   api.extendPackage({
     devDependencies: {
-      '@vue/test-utils': '1.0.0-beta.29',
-      ava: '^1.4.1',
-      'browser-env': '^3.2.6',
-      'require-extension-hooks': '^0.3.3',
-      'require-extension-hooks-vue': '^3.0.0',
-      'css-modules-require-hook': '^4.2.3'
+      '@vue/test-utils':
+        injectedPackageDevDeps['@vue/test-utils'],
+      ava:
+        injectedPackageDevDeps.ava,
+      'browser-env':
+        injectedPackageDevDeps['browser-env'],
+      'require-extension-hooks':
+        injectedPackageDevDeps['require-extension-hooks'],
+      'require-extension-hooks-vue':
+        injectedPackageDevDeps['require-extension-hooks-vue'],
+      'css-modules-require-hook':
+        injectedPackageDevDeps['css-modules-require-hook']
     },
     scripts: {
       'test:unit': 'vue-cli-service test:unit'

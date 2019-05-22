@@ -38,8 +38,8 @@ hooks('ts').push(({filename, content}) => {
 })
 
 require('tsconfig-paths/register')
-<%_ } _%>
 
+<%_ } _%>
 // Setup vue files to be processed by `require-extension-hooks-vue`
 hooks('vue').plugin('vue').push()
 <%_ if (!hasTS) { _%>
@@ -50,8 +50,8 @@ hooks(['vue', 'js']).exclude(({ filename }) => {
     filename.includes('vue.config.js') ||
     filename.match(/helpers\/setup\.js/)
 }).plugin('babel').push()
-<%_ } _%>
 
+<%_ } _%>
 // Setup css to be processed by `css-require-extension-hook`
 css({})
 
