@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-beta.7](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2019-05-22)
+
+
+### Bug Fixes
+
+* **babel:** use babel-module-resolver ([9e87504](https://github.com/dnlup/vue-cli-plugin-unit-ava/commit/9e87504)), closes [#16](https://github.com/dnlup/vue-cli-plugin-unit-ava/issues/16)
+
+
+### BREAKING CHANGES
+
+* **babel:** webpack defined in aliases are not automatically injected
+
+
+
 ## [1.0.0-beta.6](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2019-05-20)
 
 
