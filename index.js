@@ -1,16 +1,5 @@
 /**
  * Service plugin that allows running unit tests with `ava`.
- * It injects the command `test:unit` which launches a `webpack` build on files , then
- * runs `ava` against the generated files. The generated files are saved in the `dist_tests` directory
- * in the project following the same directory structure of the original ones,
- * also a custom `webpack` plugin to rewrite source maps is added to adjust
- * the `sources` field to have the test file as the first element to allow `ava`
- * to properly compute the destination path to save snaphots.
- *
- * The plugin will look for files with extension:
- * * `*.spec.ts` if the project is using typescript
- * * `*.spec.js` otherwise
- * recursively in the `tests/unit` folder, if no files, directories or glob expressions are passed from the command line.
  * @module vue-cli-plugin-unit-ava
  * @see {@link https://cli.vuejs.org/dev-guide/plugin-dev.html#service-plugin}
  */
