@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/%40dnlup%2Fvue-cli-plugin-unit-ava.svg)](https://badge.fury.io/js/%40dnlup%2Fvue-cli-plugin-unit-ava)
 [![Build Status](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava.svg?token=zu3SxXGFaq3y1hcTQfC6&branch=master)](https://travis-ci.com/dnlup/vue-cli-plugin-unit-ava) [![Greenkeeper badge](https://badges.greenkeeper.io/dnlup/vue-cli-plugin-unit-ava.svg?token=afd39f2e241ccb41748b27d5b16c32d4a8922b23319dbd178352c5a12aa4c967&ts=1552668377939)](https://greenkeeper.io/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/24a9748c22097d1f5cf8/maintainability)](https://codeclimate.com/github/dnlup/vue-cli-plugin-unit-ava/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/24a9748c22097d1f5cf8/test_coverage)](https://codeclimate.com/github/dnlup/vue-cli-plugin-unit-ava/test_coverage)
