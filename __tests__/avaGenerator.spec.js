@@ -1,5 +1,6 @@
 import test from 'ava'
 import generateWithPlugin from '@vue/cli-test-utils/generateWithPlugin'
+import { devDependencies } from '../package.json'
 
 async function generator (t, input) {
   const { pkg, files } = await generateWithPlugin(input)
@@ -8,8 +9,26 @@ async function generator (t, input) {
   for (const id in files) {
     files[id] = files[id].replace(/\r?\n|\r/g, '')
   }
-  t.snapshot(pkg)
-  t.snapshot(files)
+  const packages = [
+    '@vue/test-utils',
+    'ava',
+    'babel-plugin-module-resolver',
+    'browser-env',
+    'css-modules-require-hook',
+    'require-extension-hooks-babel',
+    'require-extension-hooks-vue',
+    'stylus'
+  ]
+  for (let key of packages) {
+    pkg.devDependencies[key] &&
+    t.is(pkg.devDependencies[key], devDependencies[key])
+  }
+  t.snapshot(pkg.scripts)
+  const {
+    'package.json': pjson,
+    ...assets
+  } = files
+  t.snapshot(assets)
 }
 
 test('Base config using `ava.config.js`', generator, {
