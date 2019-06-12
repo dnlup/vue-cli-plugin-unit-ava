@@ -1,11 +1,15 @@
 require('browser-env')()
 const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
 const hooks = require('require-extension-hooks')
+<%_ if (loadStyles === 'Yes' && styles.length) { _%>
 const css = require('css-modules-require-hook')
+<%_ } _%>
+<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
+const stylus = require('stylus')
+<%_ } _%>
 const Vue = require('vue')
 <%_ if (uiFramework === 'Vuetify') { _%>
 const Vuetify = require('vuetify')
-const stylus = require('stylus')
 <%_ } _%>
 <%_ if (hasTS) { _%>
 const tsNode = require('ts-node')
@@ -50,12 +54,23 @@ hooks(['vue', 'js']).exclude(({ filename }) => {
     filename.includes('vue.config.js') ||
     filename.match(/helpers\/setup\.js/)
 }).plugin('babel').push()
-
 <%_ } _%>
-// Setup css to be processed by `css-require-extension-hook`
-css({})
 
+<%_ if (loadStyles === 'No' || !styles.length || styles.indexOf('css') === -1) { _%>
 // Setup mocking of static assets
+hooks([
+  '.css',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.woff',
+  '.ico',
+  '.ico',
+  '.svg'
+]).push(() => '')
+<%_ } _%>
+<%_ if (loadStyles === 'Yes' && styles.indexOf('css') !== -1) { _%>
+  // Setup mocking of static assets
 hooks([
   '.png',
   '.jpg',
@@ -65,8 +80,13 @@ hooks([
   '.ico',
   '.svg'
 ]).push(() => '')
+<%_ } _%>
 
-<%_ if (uiFramework === 'Vuetify') { _%>
+<%_ if (loadStyles === 'Yes' && styles.indexOf('css') !== -1) { _%>
+// Setup css to be processed by `css-require-extension-hook`
+css({})
+<%_ } _%>
+<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
 // Setup styl files to be processed by `css-require-extension-hook`
 css({
   extensions: ['.styl'],
@@ -74,9 +94,12 @@ css({
     return stylus(css).set('filename', filename).render()
   }
 })
+<%_ } _%>
 
+<%_ if (uiFramework === 'Vuetify') { _%>
+<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
 require('vuetify/src/stylus/app.styl')
-
+<%_ } _%>
 Vue.use(Vuetify, {
   iconfont: 'md'
 })

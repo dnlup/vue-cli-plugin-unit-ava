@@ -18,8 +18,28 @@ module.exports = [
       'Vuetify'
     ],
     default: 'No'
+  },
+  {
+    name: 'loadStyles',
+    type: 'list',
+    message: 'Do you want to load styles?',
+    choices: [
+      'No',
+      'Yes'
+    ],
+    default: 'No'
+  },
+  {
+    name: 'styles',
+    type: 'checkbox',
+    message: 'Which ones?',
+    choices: [
+      'css',
+      'stylus'
+    ],
+    default: ['css'],
+    when: ({ loadStyles }) => loadStyles === 'Yes'
   }
-  // TODO: Manage style processors options
   // {
   //   name: 'cssProcessors',
   //   type: 'list',
@@ -30,7 +50,7 @@ module.exports = [
   //     'Less',
   //     'Stylus'
   //   ],
-  //   default: 'No',
-  //   when: ({ uiFramework }) => uiFramework === 'No'
+  //   default: 'No' // ,
+  //   // when: ({ uiFramework }) => uiFramework === 'No'
   // }
 ]

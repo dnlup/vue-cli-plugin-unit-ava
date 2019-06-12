@@ -83,7 +83,9 @@ module.exports = (api, options) => {
   const root = api.resolve('')
   const {
     avaConfigLocation,
-    uiFramework
+    uiFramework,
+    loadStyles,
+    styles
   } = options
   const hasTS = api.hasPlugin('typescript')
   const babelPluginModuleResolver = [
@@ -192,7 +194,9 @@ module.exports = (api, options) => {
 
   api.render('./template', {
     hasTS,
-    uiFramework
+    uiFramework,
+    loadStyles,
+    styles
   })
 
   api.extendPackage({
