@@ -57,7 +57,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^2.4.0",
     "is-ci": "^2.0.0",
-    "lint-staged": "^8.2.0",
+    "lint-staged": "^9.0.0",
     "nanoid": "^2.0.3",
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0",
