@@ -25,17 +25,19 @@ function stringifyJS (value) {
 }
 
 /**
- * Add a babel plugin avoiding duplicates
- * @param {Array[]} plugins
- * @param {Array} plugin
+ * Add a babel list entry avoiding duplicates
+ * @param {Array} list - the option list
+ * @param {Array} entry - the entry
  * @retun {Array[]}
  */
-function addBabelPlugin (plugins, plugin) {
-  const index = plugins.findIndex(p => p[0] === plugin[0])
+function addBabeListEntry (list, entry) {
+  const index = list.findIndex(i => {
+    return Array.isArray(i) ? i[0] === entry[0] : i === entry[0]
+  })
   if (index === -1) {
-    plugins.push(plugin)
+    list.push(entry)
   }
-  return plugins
+  return list
 }
 
 /**
@@ -84,10 +86,10 @@ module.exports = (api, options) => {
   const {
     avaConfigLocation,
     uiFramework,
-    loadStyles,
     styles
   } = options
   const hasTS = api.hasPlugin('typescript')
+  const hasBabel = api.hasPlugin('babel')
   const babelPluginModuleResolver = [
     'module-resolver',
     {
@@ -104,6 +106,7 @@ module.exports = (api, options) => {
   }
 
   if (hasTS) {
+    // Add Typescript configuration to ava
     injectedAvaConfig.compileEnhancements = false
     injectedAvaConfig.files = [
       'tests/unit/**/*.spec.ts'
@@ -111,12 +114,27 @@ module.exports = (api, options) => {
     injectedAvaConfig.extensions = [
       'ts'
     ]
-  } else {
+
+    // Inject Typescript dependencies
+    api.extendPackage({
+      devDependencies: {
+        'ts-node': injectedPackageDevDeps['ts-node'],
+        'tsconfig-paths': injectedPackageDevDeps['tsconfig-paths']
+      }
+    })
+  } else if (hasBabel) {
+    injectedAvaConfig.files = [
+      'tests/unit/**/*.spec.js'
+    ]
+  } else if (!hasBabel) {
+    injectedAvaConfig.babel = false
+    injectedAvaConfig.compileEnhancements = false
     injectedAvaConfig.files = [
       'tests/unit/**/*.spec.js'
     ]
   }
 
+  // Configure ava
   api.render(files => {
     if (avaConfigLocation === 'ava.config.js') {
       const pack = JSON.parse(files['package.json'] || '{}')
@@ -144,7 +162,8 @@ module.exports = (api, options) => {
     }
   })
 
-  if (!hasTS) {
+  // Configure babel.config.js
+  if (!hasTS && hasBabel) {
     api.render(files => {
       let config = {}
       try {
@@ -156,7 +175,16 @@ module.exports = (api, options) => {
       config.env = config.env || {}
       config.env.test = config.env.test || {}
       config.env.test.plugins = config.env.test.plugins || []
-      config.env.test.plugins = addBabelPlugin(
+      config.env.test.presets = config.env.test.presets || []
+      config.env.test.presets = addBabeListEntry(config.env.test.presets, [
+        '@vue/app',
+        {
+          targets: {
+            node: 'current'
+          }
+        }
+      ])
+      config.env.test.plugins = addBabeListEntry(
         config.env.test.plugins,
         babelPluginModuleResolver
       )
@@ -172,30 +200,27 @@ module.exports = (api, options) => {
     })
   }
 
-  // Add Typescript dependencies
-  if (hasTS) {
+  // Add style loaders
+  if (styles && styles.length) {
     api.extendPackage({
       devDependencies: {
-        'ts-node': injectedPackageDevDeps['ts-node'],
-        'tsconfig-paths': injectedPackageDevDeps['tsconfig-paths']
+        'css-modules-require-hook':
+          injectedPackageDevDeps['css-modules-require-hook']
       }
     })
-  }
-
-  // Add UI Frameowrk specific dependencies
-  switch (uiFramework) {
-    case 'Vuetify':
+    if (styles.includes('stylus')) {
       api.extendPackage({
         devDependencies: {
           stylus: injectedPackageDevDeps.stylus
         }
       })
+    }
   }
 
   api.render('./template', {
     hasTS,
+    hasBabel,
     uiFramework,
-    loadStyles,
     styles
   })
 
@@ -210,9 +235,7 @@ module.exports = (api, options) => {
       'require-extension-hooks':
         injectedPackageDevDeps['require-extension-hooks'],
       'require-extension-hooks-vue':
-        injectedPackageDevDeps['require-extension-hooks-vue'],
-      'css-modules-require-hook':
-        injectedPackageDevDeps['css-modules-require-hook']
+        injectedPackageDevDeps['require-extension-hooks-vue']
     },
     scripts: {
       'test:unit': 'vue-cli-service test:unit'

@@ -1,10 +1,10 @@
 require('browser-env')()
 const webpackConfig = require.resolve('@vue/cli-service/webpack.config.js')
 const hooks = require('require-extension-hooks')
-<%_ if (loadStyles === 'Yes' && styles.length) { _%>
+<%_ if (styles && styles.length) { _%>
 const css = require('css-modules-require-hook')
 <%_ } _%>
-<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
+<%_ if (styles && styles.includes('stylus')) { _%>
 const stylus = require('stylus')
 <%_ } _%>
 const Vue = require('vue')
@@ -24,6 +24,8 @@ const ts = tsNode.register({
   },
   transpileOnly: true
 })
+
+require('tsconfig-paths/register')
 <%_ } _%>
 
 // Fix TypeError from prettier
@@ -32,7 +34,10 @@ window.Date = Date
 // Setup Vue.js to remove production tip
 Vue.config.productionTip = false
 
-<%_ if (hasTS) { _%>
+// Setup vue files to be processed by `require-extension-hooks-vue`
+hooks('vue').plugin('vue').push()
+
+<%_ if (hasTS && hasBabel) { _%>
 hooks('ts').push(({filename, content}) => {
   content = ts.compile(content, filename)
   return {
@@ -40,13 +45,18 @@ hooks('ts').push(({filename, content}) => {
      filename
   }
 })
-
-require('tsconfig-paths/register')
-
 <%_ } _%>
-// Setup vue files to be processed by `require-extension-hooks-vue`
-hooks('vue').plugin('vue').push()
-<%_ if (!hasTS) { _%>
+<%_ if (hasTS && !hasBabel) { _%>
+// Setup vue and ts files to be processed by `ts-node`
+hooks(['vue', 'ts']).push(({filename, content}) => {
+  content = ts.compile(content, filename)
+  return {
+      content,
+      filename
+  }
+})
+<%_ } _%>
+<%_ if (!hasTS && hasBabel) { _%>
 // Setup vue and js files to be processed by `require-extension-hooks-babel`
 hooks(['vue', 'js']).exclude(({ filename }) => {
   return filename.match(/\/node_modules\//) ||
@@ -56,7 +66,7 @@ hooks(['vue', 'js']).exclude(({ filename }) => {
 }).plugin('babel').push()
 <%_ } _%>
 
-<%_ if (loadStyles === 'No' || !styles.length || styles.indexOf('css') === -1) { _%>
+<%_ if (!styles || !styles.length || !styles.includes('css')) { _%>
 // Setup mocking of static assets
 hooks([
   '.css',
@@ -69,7 +79,7 @@ hooks([
   '.svg'
 ]).push(() => '')
 <%_ } _%>
-<%_ if (loadStyles === 'Yes' && styles.indexOf('css') !== -1) { _%>
+<%_ if (styles && styles.includes('css')) { _%>
   // Setup mocking of static assets
 hooks([
   '.png',
@@ -80,13 +90,11 @@ hooks([
   '.ico',
   '.svg'
 ]).push(() => '')
-<%_ } _%>
 
-<%_ if (loadStyles === 'Yes' && styles.indexOf('css') !== -1) { _%>
 // Setup css to be processed by `css-require-extension-hook`
 css({})
 <%_ } _%>
-<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
+<%_ if (styles && styles.includes('stylus')) { _%>
 // Setup styl files to be processed by `css-require-extension-hook`
 css({
   extensions: ['.styl'],
@@ -97,7 +105,7 @@ css({
 <%_ } _%>
 
 <%_ if (uiFramework === 'Vuetify') { _%>
-<%_ if (loadStyles === 'Yes' && styles.indexOf('stylus') !== -1) { _%>
+<%_ if (styles && styles.includes('stylus')) { _%>
 require('vuetify/src/stylus/app.styl')
 <%_ } _%>
 Vue.use(Vuetify, {

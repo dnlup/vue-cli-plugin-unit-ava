@@ -20,37 +20,13 @@ module.exports = [
     default: 'No'
   },
   {
-    name: 'loadStyles',
-    type: 'list',
-    message: 'Do you want to load styles?',
-    choices: [
-      'No',
-      'Yes'
-    ],
-    default: 'No'
-  },
-  {
     name: 'styles',
     type: 'checkbox',
-    message: 'Which ones?',
+    message: 'Select the style files you wpuld like to load',
     choices: [
       'css',
       'stylus'
     ],
-    default: ['css'],
-    when: ({ loadStyles }) => loadStyles === 'Yes'
+    default: []
   }
-  // {
-  //   name: 'cssProcessors',
-  //   type: 'list',
-  //   message: 'Do you want to use a CSS processor',
-  //   choices: [
-  //     'No',
-  //     'Sass',
-  //     'Less',
-  //     'Stylus'
-  //   ],
-  //   default: 'No' // ,
-  //   // when: ({ uiFramework }) => uiFramework === 'No'
-  // }
 ]
