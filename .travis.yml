@@ -12,5 +12,11 @@ branches:
   only:
     - master
     - /^greenkeeper.*$/
+# See https://stackoverflow.com/questions/1570262/get-exit-code-of-a-background-process?answertab=votes#tab-top
+# See https://github.com/travis-ci/travis-ci/issues/7323#issuecomment-411563149
 script:
-  - travis_wait 30 npm test
+  - npm test &
+  - TEST_PID=$!
+  - while [ -e /proc/$TEST_PID ]; do echo -n "."  && sleep 60; done
+  - TEST_CODE="$(wait $TEST_PID)"
+  - exit $TEST_CODE 
