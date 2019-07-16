@@ -56,11 +56,7 @@ test.afterEach(async t => {
   await rimraf(t.context.path)
 })
 
-let count = 1
-
 async function plugin (t, input = {}) {
-  // Adding a sleep to avoid too much stress without running tests serially
-  await sleep(2000 * count++)
   const { plugins = {}, invokeOpts = [] } = input
   const project = await create(t.context.project, {
     plugins
@@ -70,10 +66,6 @@ async function plugin (t, input = {}) {
   await project.run(`vue invoke @dnlup/unit-ava ${opts}`)
   await project.run(`${t.context.cliService} test:unit`)
   t.pass()
-}
-
-async function sleep (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
