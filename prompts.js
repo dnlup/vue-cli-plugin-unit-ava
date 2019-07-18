@@ -22,7 +22,7 @@ module.exports = [
   {
     name: 'styles',
     type: 'checkbox',
-    message: 'Select the style files you wpuld like to load',
+    message: 'Select the type of style files you would like to load, if any',
     choices: [
       'css',
       'stylus'

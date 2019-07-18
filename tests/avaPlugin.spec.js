@@ -82,7 +82,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--uiFramework No'
     ]
   })
-  test(`Base Plugin + Babel + css (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel + css (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {}
     },
@@ -92,7 +92,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles css'
     ]
   })
-  test(`Base Plugin + Babel + stylus (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel + stylus (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {}
     },
@@ -123,7 +123,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--uiFramework Vuetify'
     ]
   })
-  test(`Base Plugin + Babel + css + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel + css + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {},
       'vue-cli-plugin-vuetify': vuetifyPluginOptions
@@ -134,7 +134,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles css'
     ]
   })
-  test(`Base Plugin + Babel + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel + stylus + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {},
       'vue-cli-plugin-vuetify': vuetifyPluginOptions
@@ -168,7 +168,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--uiFramework No'
     ]
   })
-  test(`Base Plugin + TypeScript + css (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + css (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {}
     },
@@ -178,7 +178,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles css'
     ]
   })
-  test(`Base Plugin + TypeScript + stylus (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + stylus (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {}
     },
@@ -211,7 +211,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--uiFramework Vuetify'
     ]
   })
-  test(`Base Plugin + TypeScript + css + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + css + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {},
       'vue-cli-plugin-vuetify': vuetifyPluginOptions
@@ -233,7 +233,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles stylus'
     ]
   })
-  test(`Base Plugin + TypeScript + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {
         useTsWithBabel: false
