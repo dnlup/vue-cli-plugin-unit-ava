@@ -73,7 +73,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
   // uses export default {} in its HelloWorld.vue compoenent.
 
   // Babel setup
-  test(`Base Plugin + Babel (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {}
     },
@@ -113,7 +113,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles stylus'
     ]
   })
-  test(`Base Plugin + Babel + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + Babel + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-babel': {},
       'vue-cli-plugin-vuetify': vuetifyPluginOptions
@@ -159,7 +159,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
   })
 
   // TypeScript setup
-  test(`Base Plugin + TypeScript (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {}
     },
@@ -199,7 +199,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles stylus'
     ]
   })
-  test(`Base Plugin + TypeScript + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {
         useTsWithBabel: false
@@ -222,7 +222,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles css'
     ]
   })
-  test(`Base Plugin + TypeScript + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+  test.skip(`Base Plugin + TypeScript + stylus + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {},
       'vue-cli-plugin-vuetify': vuetifyPluginOptions
@@ -233,7 +233,7 @@ for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
       '--styles stylus'
     ]
   })
-  test.skip(`Base Plugin + TypeScript + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+  test(`Base Plugin + TypeScript + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
     plugins: {
       '@vue/cli-plugin-typescript': {
         useTsWithBabel: false
