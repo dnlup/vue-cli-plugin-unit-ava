@@ -90,6 +90,7 @@ module.exports = (api, options) => {
   } = options
   const hasTS = api.hasPlugin('typescript')
   const hasBabel = api.hasPlugin('babel')
+  const isBabelProject = !hasTS && hasBabel
   const babelPluginModuleResolver = [
     'module-resolver',
     {
@@ -105,6 +106,7 @@ module.exports = (api, options) => {
     ]
   }
 
+  // Configure ava
   if (hasTS) {
     // Add Typescript configuration to ava
     injectedAvaConfig.compileEnhancements = false
@@ -134,7 +136,6 @@ module.exports = (api, options) => {
     ]
   }
 
-  // Configure ava
   api.render(files => {
     if (avaConfigLocation === 'ava.config.js') {
       const pack = JSON.parse(files['package.json'] || '{}')
@@ -163,7 +164,7 @@ module.exports = (api, options) => {
   })
 
   // Configure babel.config.js
-  if (!hasTS && hasBabel) {
+  if (isBabelProject) {
     api.render(files => {
       let config = {}
       try {
@@ -217,6 +218,7 @@ module.exports = (api, options) => {
     }
   }
 
+  // generate assets
   api.render('./template', {
     hasTS,
     hasBabel,
@@ -224,6 +226,7 @@ module.exports = (api, options) => {
     styles
   })
 
+  // add common dependencies and scripts
   api.extendPackage({
     devDependencies: {
       '@vue/test-utils':
