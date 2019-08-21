@@ -105,9 +105,6 @@ css({
 <%_ } _%>
 
 <%_ if (uiFramework === 'Vuetify') { _%>
-<%_ if (styles && styles.includes('stylus')) { _%>
-require('vuetify/src/stylus/app.styl')
-<%_ } _%>
 Vue.use(Vuetify, {
   iconfont: 'md'
 })
