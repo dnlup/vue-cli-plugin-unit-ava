@@ -1,17 +1,60 @@
 const { join, resolve } = require('path')
 const { promisify } = require('util')
-const { homedir } = require('os')
-const { mkdir, writeFile } = require('fs')
-const mkd = promisify(mkdir)
+const { homedir, tmpdir } = require('os')
+const { writeFile } = require('fs')
 const writeF = promisify(writeFile)
 const rimraf = promisify(require('rimraf'))
+const isCI = require('is-ci')
 const test = require('ava')
 const id = require('nanoid/generate')
 const create = require('@vue/cli-test-utils/createTestProject')
-const { version: VERSION } = require('../package.json')
-const isCI = require('is-ci')
 const ROOT = resolve(__dirname, '../')
-const DATA_DIR = join(__dirname, '.data')
+const DATA_DIR = tmpdir()
+const vuetifyPluginOptions = {
+  preset: 'configure',
+  replaceComponents: true,
+  iconFont: 'mdi',
+  installFonts: false,
+  locale: 'en',
+  useAlaCarte: true,
+  useCustomProperties: false,
+  usePolyfill: false,
+  useTheme: false
+}
+
+test.before(async t => {
+  // If in a CI env manually set user preference to use npm
+  // in order to avoid yarn errors when installing
+  // see https://github.com/yarnpkg/yarn/issues/2629
+  if (isCI) {
+    const data = {
+      useTaobaoRegistry: false,
+      latestVersion: '3.7.0',
+      lastChecked: 1556454509806,
+      packageManager: 'npm',
+      presets: {}
+    }
+    const file = join(homedir(), '.vuerc')
+    await writeF(file, JSON.stringify(data), 'utf8')
+  }
+})
+
+test.beforeEach(t => {
+  t.context.project = `project_${id('1234567890abcdef', 10)}`
+  t.context.path = join(DATA_DIR, t.context.project)
+  t.context.cliService = join(
+    t.context.path,
+    'node_modules',
+    '@vue',
+    'cli-service',
+    'bin',
+    'vue-cli-service.js'
+  )
+})
+
+test.afterEach(async t => {
+  await rimraf(t.context.path)
+})
 
 async function plugin (t, input = {}) {
   const { plugins = {}, invokeOpts = [] } = input
@@ -19,96 +62,189 @@ async function plugin (t, input = {}) {
     plugins
   }, DATA_DIR)
   const opts = invokeOpts.join(' ')
-  await project.run(`npm pack ${ROOT}`)
-  await project.run(`npm i -D ${join(t.context.path, t.context.packed)}`)
+  await project.run(`npm i -D ${ROOT}`)
   await project.run(`vue invoke @dnlup/unit-ava ${opts}`)
   await project.run(`${t.context.cliService} test:unit`)
   t.pass()
 }
 
-test.before(async t => {
-  try {
-    await mkd(DATA_DIR)
-    // If in a CI env manually set user preference to use npm
-    // in order to avoid yarn errors when installing
-    // see https://github.com/yarnpkg/yarn/issues/2629
-    if (isCI) {
-      const data = {
-        useTaobaoRegistry: false,
-        latestVersion: '3.7.0',
-        lastChecked: 1556454509806,
-        packageManager: 'npm',
-        presets: {}
-      }
-      const file = join(homedir(), '.vuerc')
-      await writeF(file, JSON.stringify(data), 'utf8')
-    }
-  } catch (error) {}
-})
+for (const avaConfigLocation of ['ava.config.js', 'package.json']) {
+  // Plain JS setup - not tested since the default app created by @vue/cli is
+  // uses export default {} in its HelloWorld.vue compoenent.
 
-test.beforeEach(t => {
-  t.context.project = `project_${id('1234567890abcdef', 10)}`
-  t.context.path = join(DATA_DIR, t.context.project)
-  t.context.cliService = join(t.context.path, 'node_modules',
-    '@vue', 'cli-service', 'bin', 'vue-cli-service.js')
-  t.context.packed = `dnlup-vue-cli-plugin-unit-ava-${VERSION}.tgz`
-})
+  // Babel setup
+  test.skip(`Base Plugin + Babel (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No'
+    ]
+  })
+  test.skip(`Base Plugin + Babel + css (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles css'
+    ]
+  })
+  test.skip(`Base Plugin + Babel + stylus (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles stylus'
+    ]
+  })
+  test(`Base Plugin + Babel + css + stylus (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles css',
+      '--styles stylus'
+    ]
+  })
+  test.skip(`Base Plugin + Babel + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify'
+    ]
+  })
+  test.skip(`Base Plugin + Babel + css + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles css'
+    ]
+  })
+  test.skip(`Base Plugin + Babel + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles stylus'
+    ]
+  })
+  test(`Base Plugin + Babel + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles css',
+      '--styles stylus'
+    ]
+  })
 
-test.afterEach(async t => {
-  await rimraf(t.context.path)
-})
-
-test('Base Plugin works (ava.config.js)', plugin, {
-  invokeOpts: [
-    '--avaConfigLocation ava.config.js',
-    '--uiFramework No'
-  ]
-})
-
-test('Base Plugin works (package.json)', plugin, {
-  invokeOpts: [
-    '--avaConfigLocation package.json',
-    '--uiFramework No'
-  ]
-})
-
-test('Plugin works with Vuetify (ava.config.js)', plugin, {
-  plugins: {
-    vuetify: {}
-  },
-  invokeOpts: [
-    '--avaConfigLocation package.json',
-    '--uiFramework Vuetify'
-  ]
-})
-
-test('Plugin works with TS (ava.config.js)', plugin, {
-  plugins: {
-    '@vue/cli-plugin-typescript': {}
-  },
-  invokeOpts: [
-    '--avaConfigLocation ava.config.js',
-    '--uiFramework No'
-  ]
-})
-
-test('Plugin works with TS (package.json)', plugin, {
-  plugins: {
-    '@vue/cli-plugin-typescript': {}
-  },
-  invokeOpts: [
-    '--avaConfigLocation package.json',
-    '--uiFramework No'
-  ]
-})
-
-test('Plugin works with TS + Vuetify (ava.config.js)', plugin, {
-  plugins: {
-    '@vue/cli-plugin-typescript': {},
-    vuetify: {}
-  },
-  invokeOpts: [
-    '--avaConfigLocation ava.config.js',
-    '--uiFramework Vuetify'
-  ]
-})
+  // TypeScript setup
+  test.skip(`Base Plugin + TypeScript (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No'
+    ]
+  })
+  test.skip(`Base Plugin + TypeScript + css (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles css'
+    ]
+  })
+  test.skip(`Base Plugin + TypeScript + stylus (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles stylus'
+    ]
+  })
+  test(`Base Plugin + TypeScript + css + stylus (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {}
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework No',
+      '--styles css',
+      '--styles stylus'
+    ]
+  })
+  test.skip(`Base Plugin + TypeScript + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {
+        useTsWithBabel: false
+      },
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify'
+    ]
+  })
+  test.skip(`Base Plugin + TypeScript + css + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles css'
+    ]
+  })
+  test.skip(`Base Plugin + TypeScript + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {},
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles stylus'
+    ]
+  })
+  test(`Base Plugin + TypeScript + css + stylus + Vuetify (${avaConfigLocation})`, plugin, {
+    plugins: {
+      '@vue/cli-plugin-typescript': {
+        useTsWithBabel: false
+      },
+      'vue-cli-plugin-vuetify': vuetifyPluginOptions
+    },
+    invokeOpts: [
+      `--avaConfigLocation ${avaConfigLocation}`,
+      '--uiFramework Vuetify',
+      '--styles css',
+      '--styles stylus'
+    ]
+  })
+}

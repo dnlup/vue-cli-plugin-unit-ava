@@ -12,3 +12,5 @@ branches:
   only:
     - master
     - /^greenkeeper.*$/
+script:
+  - travis_wait 40 npm test

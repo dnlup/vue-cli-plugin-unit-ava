@@ -60,9 +60,14 @@ Will merge or create a new configuration in the selected destination. It will fa
 
 Will add support for a specific UI Framework. It currently supports only the latest version of [Vuetify](https://vuetifyjs.com/en/).
 
+![prompt_3](./assets/prompt_3.png)
+
+Will ask if you want to add style loaders.
+
 ### Contributing
 
 * Make your changes
+* Test them with `npm test`
 * Add them
   ```bash
   $ git add <your files>
@@ -71,3 +76,7 @@ Will add support for a specific UI Framework. It currently supports only the lat
   ```bash
   $ npm run cz
   ```
+
+#### Note
+Tests now are a bit heavy because I am actually creating a considerable amount of projects in parallel to test different configurations.
+All configurations cannot be tested, it would be too expensive.

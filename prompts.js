@@ -18,19 +18,15 @@ module.exports = [
       'Vuetify'
     ],
     default: 'No'
+  },
+  {
+    name: 'styles',
+    type: 'checkbox',
+    message: 'Select the type of style files you would like to load, if any',
+    choices: [
+      'css',
+      'stylus'
+    ],
+    default: []
   }
-  // TODO: Manage style processors options
-  // {
-  //   name: 'cssProcessors',
-  //   type: 'list',
-  //   message: 'Do you want to use a CSS processor',
-  //   choices: [
-  //     'No',
-  //     'Sass',
-  //     'Less',
-  //     'Stylus'
-  //   ],
-  //   default: 'No',
-  //   when: ({ uiFramework }) => uiFramework === 'No'
-  // }
 ]
