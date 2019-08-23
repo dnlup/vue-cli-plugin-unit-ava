@@ -6,8 +6,7 @@
   "scripts": {
     "test": "nyc --reporter=lcov  --reporter=text-summary ava",
     "lint": "eslint ./ --fix",
-    "cz": "git-cz",
-    "release": "standard-version",
+    "release": "HUSKY_SKIP_HOOKS=1 standard-version",
     "gh:release": "conventional-github-releaser -p angular"
   },
   "keywords": [
@@ -58,7 +57,7 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "husky": "^2.7.0",
+    "husky": "^3.0.4",
     "is-ci": "^2.0.0",
     "lint-staged": "^8.2.1",
     "nanoid": "^2.0.3",
@@ -75,6 +74,7 @@
   },
   "husky": {
     "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
       "pre-commit": "lint-staged"
     }
   },

@@ -74,7 +74,7 @@ Will ask if you want to add style loaders.
   ```
 * Commit (uses [commitizen](https://github.com/commitizen/cz-cli))
   ```bash
-  $ npm run cz
+  $ git commit
   ```
 
 #### Note
