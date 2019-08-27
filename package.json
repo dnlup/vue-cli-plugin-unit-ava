@@ -1,12 +1,12 @@
 {
   "name": "@dnlup/vue-cli-plugin-unit-ava",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-rc.1",
   "description": "@vue/cli plugin to run unit tests with ava",
   "main": "index.js",
   "scripts": {
     "test": "nyc --reporter=lcov  --reporter=text-summary ava",
     "lint": "eslint ./ --fix",
-    "release": "HUSKY_SKIP_HOOKS=1 standard-version", 
+    "release": "HUSKY_SKIP_HOOKS=1 standard-version",
     "postrelease": "git push --follow-tags origin master && conventional-github-releaser -p angular"
   },
   "keywords": [
