@@ -6,8 +6,8 @@
   "scripts": {
     "test": "nyc --reporter=lcov  --reporter=text-summary ava",
     "lint": "eslint ./ --fix",
-    "release": "HUSKY_SKIP_HOOKS=1 standard-version",
-    "gh:release": "conventional-github-releaser -p angular"
+    "release": "HUSKY_SKIP_HOOKS=1 standard-version", 
+    "postrelease": "git push --follow-tags origin master && conventional-github-releaser -p angular"
   },
   "keywords": [
     "vue",
