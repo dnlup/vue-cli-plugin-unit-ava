@@ -19,7 +19,7 @@ async function generator (t, input) {
     'require-extension-hooks-vue',
     'stylus'
   ]
-  for (let key of packages) {
+  for (const key of packages) {
     pkg.devDependencies[key] &&
     t.is(pkg.devDependencies[key], devDependencies[key])
   }
