@@ -67,7 +67,7 @@
     "require-extension-hooks-vue": "^3.0.0",
     "rimraf": "^3.0.0",
     "standard-version": "^7.0.0",
-    "stylus": "^0.54.5",
+    "stylus": "^0.54.7",
     "ts-node": "^8.3.0",
     "tsconfig-paths": "^3.8.0",
     "vue-cli-plugin-vuetify": "^0.5.0"
