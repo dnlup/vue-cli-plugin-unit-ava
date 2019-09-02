@@ -105,6 +105,12 @@ css({
 <%_ } _%>
 
 <%_ if (uiFramework === 'Vuetify') { _%>
+// Setup Vuetify
+// See https://vuetifyjs.com/en/getting-started/quick-start#full-installation
+<%_ if (styles && styles.includes('css')) { _%>
+require('vuetify/dist/vuetify.min.css')
+
+<%_ } _%>
 Vue.use(Vuetify, {
   iconfont: 'md'
 })
