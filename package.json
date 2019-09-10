@@ -1,6 +1,6 @@
 {
   "name": "@dnlup/vue-cli-plugin-unit-ava",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "description": "@vue/cli plugin to run unit tests with ava",
   "main": "index.js",
   "scripts": {
