@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-rc.1...v1.0.0) (2019-09-10)
+
+
+### Bug Fixes
+
+* **generator:** add Vuetify css when css loader is selected ([9c83e43](https://github.com/dnlup/vue-cli-plugin-unit-ava/commit/9c83e43))
+
 ## [1.0.0-rc.1](https://github.com/dnlup/vue-cli-plugin-unit-ava/compare/v1.0.0-beta.7...v1.0.0-rc.1) (2019-08-27)
 
 
