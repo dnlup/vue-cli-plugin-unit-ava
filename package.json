@@ -9,6 +9,13 @@
     "release": "HUSKY_SKIP_HOOKS=1 standard-version",
     "postrelease": "git push --follow-tags origin master && node ./scripts/publish.js"
   },
+  "files": [
+    "ui.js",
+    "prompts.js",
+    "locales",
+    "generator",
+    "logo.png"
+  ],
   "keywords": [
     "vue",
     "ava",
