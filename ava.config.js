@@ -1,5 +1,11 @@
 export default {
   files: [
-    '!generator/**/*.js'
+    'tests/**'
+  ],
+  require: [
+    './tests/helpers/setup.js'
+  ],
+  helpers: [
+    'tests/helpers/**/*'
   ]
 }
