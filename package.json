@@ -36,7 +36,7 @@
     "access": "public"
   },
   "dependencies": {
-    "javascript-stringify": "^2.0.0"
+    "javascript-stringify": "^2.0.1"
   },
   "devDependencies": {
     "@vue/babel-preset-app": "^3.11.0",
