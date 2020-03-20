@@ -52,7 +52,7 @@
     "css-modules-require-hook": "^4.2.3",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^6.2.2",
-    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
